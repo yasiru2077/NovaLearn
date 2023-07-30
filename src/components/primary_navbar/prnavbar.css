@@ -1,0 +1,35 @@
+.primaryNav{
+    width: 100%;
+    height: 50px;
+    background-color:#E4EFEB;
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    color: #52BCA6;
+    font-family: 'Edu SA Beginner', cursive;
+    font-weight: 500;
+    font-size:large;
+}
+
+
+
+ul{
+        list-style: none;
+        display: flex;
+        gap: 20px;
+        padding-right: 40px;
+        cursor: pointer;
+    }
+
+li:hover{
+    color:#2C6457;
+}
+
+.topleft>img{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    margin-right: 15px;
+    cursor: pointer;
+    padding-left: 40px;
+}
