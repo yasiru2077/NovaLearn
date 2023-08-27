@@ -1,0 +1,20 @@
+h1{
+    font-size: larger;
+}
+
+.reviewQuestionBtns{
+    display: flex;
+    flex-direction: row;
+    gap: 400px;
+}
+
+
+.qustonReviewBlocks{
+position: relative;
+left: 35%;
+font-family: 'Montserrat', sans-serif;
+bottom: 550px;
+display: flex;
+flex-direction: column;
+gap: 30px;
+}
