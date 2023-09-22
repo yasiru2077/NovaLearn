@@ -1,2 +1,0 @@
-# Edulanka
-# lms system 

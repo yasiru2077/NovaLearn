@@ -1,9 +1,0 @@
-.teachersSideNav{
-    display: flex;
-    flex-direction: column;
-}
-
-.teachersSideNav ul{
-    display: flex;
-    flex-direction: column;
-}
