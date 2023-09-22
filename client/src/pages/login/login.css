@@ -1,0 +1,84 @@
+
+
+
+
+.login{
+    font-family: 'Montserrat', sans-serif;
+    background-color:  #52BAA3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 740px;
+    
+}
+
+.loginForm{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255,255,255,.1);
+    border-radius: 10px;
+    width: 1000px;
+    height: 600px;
+    gap: 30px;
+    padding-bottom: 25px;
+
+}
+
+.loginForm div{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+}
+
+.loginForm div div{
+    line-height: 10px;
+}
+
+.loginForm input{
+   
+    font-family: 'Montserrat', sans-serif;
+    text-align:left;
+    padding: 10px;
+    font-size: larger;
+    font-weight: 500;
+    border: 0;
+    border-bottom: 1px solid;
+    background-color: rgba(255,255,255,.0);
+    color:#ffe8c7;
+}
+
+.loginForm input::placeholder{
+    color: #ffe8c7;
+}
+
+.loginButton2{
+    border-radius: 20px;
+    padding: 10px 40px;
+    background-color: #ffe8c7;
+    border: 0;
+}
+
+.loginButton2:disabled{
+    cursor: not-allowed;
+}
+
+.loginButton2:hover{
+    background-color: #eef1f7;
+    color: black;
+}
+
+.loginForm>img{
+    width: 450px;
+}
+
+a{
+    text-decoration: none;
+    color:#ffe8c7;
+    font-weight: 500;
+    
+}

@@ -1,0 +1,43 @@
+.allTopics {
+  display: flex;
+  flex-wrap:wrap;
+  margin: 120px;
+  gap: 40px;
+  height:100%;
+  padding-left: 180px;
+
+}
+
+.singleTopic{
+    color: #52BAA3;
+    background-color: aquamarine;
+    padding: 10px 20px 10px 20px;
+    height: 200px;
+    width: 200px;
+}
+
+.singleTopic:hover{
+    background-color: antiquewhite;
+}
+
+.quizStudentTitleNames{
+    
+    display: flex;
+    gap: 10px;
+
+}
+
+.mathStu{
+    font-size: medium;
+}
+
+.unitMarks{
+    font-weight: 500;
+    position: relative;
+    top: 90px;
+    left: 120px;
+}
+
+.singleTopic:hover .mathStu::before {
+    content: '\f067'; 
+}
