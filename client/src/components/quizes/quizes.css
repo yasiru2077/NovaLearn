@@ -1,0 +1,27 @@
+h1{
+    font-size: larger;
+}
+
+.reviewQuestionBtns{
+    display: flex;
+    flex-direction: row;
+    gap: 300px;
+}
+
+
+.qustonReviewBlocks{
+position: relative;
+left: 35%;
+font-family: 'Montserrat', sans-serif;
+top: 0px;
+display: flex;
+flex-direction: column;
+gap: 50px;
+color:aliceblue;
+background-color: #273044;
+margin-right: 800px;
+padding: 30px 150px;
+height: 100%;
+width: 400px;
+margin: 20px;
+}

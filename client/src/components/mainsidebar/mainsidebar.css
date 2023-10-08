@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+aside div ul{
+    display: flex;
+    flex-direction: column;
+    
+
+}
+
+
+
+
