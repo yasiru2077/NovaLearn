@@ -1,9 +1,0 @@
-.users{
-   display: flex;
-   flex-wrap: wrap;
-   gap: 50px;
-   padding: 10px;
-   flex: 9;
-   justify-content: center;
-   
-}
