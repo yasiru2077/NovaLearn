@@ -19,13 +19,15 @@ const ProtectedRoute = ({ isAuthenticated }) => {
 };
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    localStorage.getItem("isAuthenticated") === "true";
-  });
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    () => localStorage.getItem("isAuthenticated") === "true"
+  );
 
   useEffect(() => {
     localStorage.setItem("isAuthenticated", isAuthenticated ? "true" : "false");
   }, [isAuthenticated]);
+
+  console.log(isAuthenticated);
 
   return (
     <Router>
@@ -36,11 +38,8 @@ function App() {
         />
         <Route path="*" element={<NotFound />} />
         <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
-          <Route element={<Layout setIsAuthenticated={setIsAuthenticated} />}>
-            <Route
-              path="/"
-              element={<Home isAuthenticated={isAuthenticated} />}
-            />
+          <Route element={<Layout />}>
+            <Route path="/" element={<Home />} />
           </Route>
         </Route>
       </Routes>
