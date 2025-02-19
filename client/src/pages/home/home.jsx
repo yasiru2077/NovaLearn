@@ -1,7 +1,9 @@
 import React from "react";
 
-function Home() {
-  return <div>Home</div>;
+function Home({ userDetails }) {
+  console.log(userDetails);
+
+  return <div>jguiosdogjos</div>;
 }
 
 export default Home;

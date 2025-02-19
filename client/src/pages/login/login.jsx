@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Login({ setIsAuthenticated }) {
+function Login({ setIsAuthenticated, setUserDetails }) {
   const [inputs, setInputs] = useState({
     username: "",
     password: "",
@@ -22,20 +22,33 @@ function Login({ setIsAuthenticated }) {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:6000/api/auth/login", input, {
-        withCredentials: true,
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/login",
+        inputs,
+        {
+          withCredentials: true,
+        }
+      );
+
+      const userData = response.data;
+
+      setUserDetails({
+        id: userData.id,
+        username: userData.username,
+        email: userData.email,
+        role: userData.role,
+        created_at: userData.created_at,
       });
 
       setIsAuthenticated(true);
 
       localStorage.setItem("isAuthenticated", "true");
-      // navigate("/");
+      localStorage.setItem("userDetails", JSON.stringify(userData));
+      navigate("/");
     } catch (err) {
       setErr(err.response?.data || "An error occurred");
     }
   };
-
-
 
   return (
     <div>

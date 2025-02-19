@@ -4,7 +4,7 @@ import authRoutes from "./routes/auth.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
-const port = 6000;
+const port = 3000;
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", true);

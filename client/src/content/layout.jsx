@@ -1,12 +1,13 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import MainNavbar from "./main-navbar/main-navbar";
 
-function Layout() {
+function Layout({setIsAuthenticated}) {
   return (
     <main>
       <section>
         <div>
-          <p>nav</p>
+          <MainNavbar setIsAuthenticated={setIsAuthenticated}/>
         </div>
         <Outlet />
       </section>

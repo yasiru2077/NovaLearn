@@ -23,23 +23,34 @@ function App() {
     () => localStorage.getItem("isAuthenticated") === "true"
   );
 
+  const [userDetails, setUserDetails] = useState(() => {
+    const storedUser = localStorage.getItem("userDetails");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+
   useEffect(() => {
     localStorage.setItem("isAuthenticated", isAuthenticated ? "true" : "false");
-  }, [isAuthenticated]);
-
-  console.log(isAuthenticated);
+    if (userDetails) {
+      localStorage.setItem("userDetails", JSON.stringify(userDetails));
+    }
+  }, [isAuthenticated, userDetails]);
 
   return (
     <Router>
       <Routes>
         <Route
           path="/login"
-          element={<Login setIsAuthenticated={setIsAuthenticated} />}
+          element={
+            <Login
+              setUserDetails={setUserDetails}
+              setIsAuthenticated={setIsAuthenticated}
+            />
+          }
         />
         <Route path="*" element={<NotFound />} />
         <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Home />} />
+          <Route element={<Layout setIsAuthenticated={setIsAuthenticated} />}>
+            <Route path="/" element={<Home userDetails={userDetails} />} />
           </Route>
         </Route>
       </Routes>
