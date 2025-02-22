@@ -1,6 +1,7 @@
 import express from "express";
 const app = express();
 import authRoutes from "./routes/auth.js";
+import adminRoutes from "./routes/user-management.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -23,6 +24,7 @@ app.use(
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/user-management", adminRoutes);
 
 app.listen(port, () => {
   console.log(`API working on ${port}`);

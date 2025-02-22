@@ -1,42 +1,55 @@
-import express from "express";
 import { db } from "../connect.js";
 import bcrypt from "bcryptjs";
-import { decrypt } from "dotenv";
 
+// Add a new user (Student or Teacher)
 export const addUser = (req, res) => {
-  const q = "select * from lmsAuth where username = ? or email = ?";
+  const q = "SELECT * FROM lmsAuth WHERE username = ? OR email = ?";
 
   db.query(q, [req.body.username, req.body.email], (err, data) => {
-    if (err) {
-      return res.status(500).json(err);
-    }
+    if (err) return res.status(500).json(err);
+    if (data.length) return res.status(409).json("User already exists!");
 
-    if (data.length) {
-      return res.status(409).json("User already exits!");
-    }
+    // Hash password
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(req.body.password, salt);
 
-    const salt = decrypt.hashSync(req.body.password, salt);
-
-    const q = "insert into lmsAuth (username,email,role,password) values(?)";
-
-    const values = [
-      req.body.username,
-      req.body.email,
-      req.body.role,
-      hashedPassword,
-    ];
+    const q = "INSERT INTO lmsAuth (username, email, role, password) VALUES (?)";
+    const values = [req.body.username, req.body.email, req.body.role, hashedPassword];
 
     db.query(q, [values], (err, data) => {
-      if (err) {
-        return res.status(500).json(err);
-      }
-
+      if (err) return res.status(500).json(err);
       return res.status(200).json("User has been created.");
     });
   });
 };
 
+// Get all users (Students & Teachers)
+export const getUsers = (req, res) => {
+  const q = "SELECT id, username, email, role, created_at FROM lmsAuth"; // Exclude passwords
 
-export const getUsers = (req,res) ={
-    const q = "select id,username,email,role,created_at from lmsAuth"
-}
+  db.query(q, (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.status(200).json(data);
+  });
+};
+
+// Update User Details
+export const updateUser = (req, res) => {
+  const { username, email, role } = req.body;
+  const q = "UPDATE lmsAuth SET username = ?, email = ?, role = ? WHERE id = ?";
+
+  db.query(q, [username, email, role, req.params.id], (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.status(200).json("User updated successfully.");
+  });
+};
+
+// Delete a User
+export const deleteUser = (req, res) => {
+  const q = "DELETE FROM lmsAuth WHERE id = ?";
+
+  db.query(q, [req.params.id], (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.status(200).json("User deleted successfully.");
+  });
+};
