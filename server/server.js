@@ -34,7 +34,7 @@ app.use("/api/user-management", adminRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/enrollment", enrollmentRoutes);
 app.use("/api/materials", learningMaterialsRoutes);
-app.use("api/assignments", assignmentsRoutes);
+app.use("/api/assignments", assignmentsRoutes);
 
 app.listen(port, () => {
   console.log(`API working on ${port}`);
