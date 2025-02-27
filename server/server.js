@@ -7,6 +7,7 @@ import courseRoutes from "./routes/courses.js";
 import enrollmentRoutes from "./routes/enrollment.js";
 import learningMaterialsRoutes from "./routes/learningMaterialsController.js";
 import assignmentsRoutes from "./routes/assignments.js";
+import submissionsRoutes from "./routes/submissions.js";
 
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -35,6 +36,7 @@ app.use("/api/courses", courseRoutes);
 app.use("/api/enrollment", enrollmentRoutes);
 app.use("/api/materials", learningMaterialsRoutes);
 app.use("/api/assignments", assignmentsRoutes);
+app.use("/api/submissions", submissionsRoutes);
 
 app.listen(port, () => {
   console.log(`API working on ${port}`);
