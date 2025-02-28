@@ -1,117 +1,209 @@
+import { query } from "express";
 import { db } from "../connect.js";
 
-// ➤ CREATE a Quiz
+// Create a new quiz
 export const createQuiz = (req, res) => {
-  const { course_id, title, questions } = req.body;
+  // const { course_id, title } = req.body;
+  // try {
+  //   const [result] =  db.execute(
+  //     "INSERT INTO quizzes (course_id, title) VALUES (?, ?)",
+  //     [course_id, title]
+  //   );
+  //   res.status(201).json({ message: "Quiz created", quizId: result.insertId });
+  // } catch (err) {
+  //   res.status(500).json({ error: err.message });
+  // }
 
-  if (
-    !course_id ||
-    !title ||
-    !Array.isArray(questions) ||
-    questions.length === 0
-  ) {
-    return res
-      .status(400)
-      .json({ message: "Course ID, title, and questions are required." });
+  const { course_id, title } = req.body;
+  if (!course_id || !title) {
+    return res.status(400).json({ message: "Course ID and Title required." });
   }
 
-  // Insert into quizzes table
-  const quizQuery = "INSERT INTO quizzes (course_id, title) VALUES (?, ?)";
-  db.query(quizQuery, [course_id, title], (err, quizResult) => {
-    if (err) return res.status(500).json({ message: err.message });
+  const query = "INSERT INTO quizzes (course_id, title) VALUES (?, ?)";
 
-    const quiz_id = quizResult.insertId;
+  db.query(query, [course_id, title], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
 
-    // Insert questions
-    const questionQuery = `
-            INSERT INTO quiz_questions (quiz_id, question, option_a, option_b, option_c, option_d, correct_option) 
-            VALUES ?`;
-
-    const questionValues = questions.map((q) => [
-      quiz_id,
-      q.question,
-      q.option_a,
-      q.option_b,
-      q.option_c,
-      q.option_d,
-      q.correct_option,
-    ]);
-
-    db.query(questionQuery, [questionValues], (err) => {
-      if (err) return res.status(500).json({ message: err.message });
-
-      res
-        .status(201)
-        .json({ message: "Quiz created successfully!", quizId: quiz_id });
+    res.status(201).json({
+      message: "Quiz created successfully",
+      enrollmentId: result.insertId,
     });
   });
 };
 
-// ➤ GET All Quizzes for a Course
-export const getQuizzes = (req, res) => {
-  const { course_id } = req.query;
+// Get all quizzes
+export const getAllQuizzes = (req, res) => {
+  const query = "SELECT * FROM quizzes";
 
-  if (!course_id)
-    return res.status(400).json({ message: "Course ID is required." });
-
-  const query =
-    "SELECT * FROM quizzes WHERE course_id = ? ORDER BY created_at DESC";
-  db.query(query, [course_id], (err, results) => {
-    if (err) return res.status(500).json({ message: err.message });
+  db.query(query, (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
 
     res.status(200).json(results);
   });
+
+  // try {
+  //   const [results] =  db.execute("SELECT * FROM quizzes");
+  //   res.json(results);
+  // } catch (err) {
+  //   res.status(500).json({ error: err.message });
+  // }
 };
 
-// ➤ GET a Quiz with Questions
+// Get a single quiz by ID
 export const getQuizById = (req, res) => {
-  const { id } = req.params;
+  // try {
+  //   const [results] = await db.execute("SELECT * FROM quizzes WHERE id = ?", [
+  //     quizId,
+  //   ]);
+  //   if (results.length === 0)
+  //     return res.status(404).json({ message: "Quiz not found" });
+  //   res.json(results[0]);
+  // } catch (err) {
+  //   res.status(500).json({ error: err.message });
+  // }
 
-  const quizQuery = "SELECT * FROM quizzes WHERE id = ?";
-  const questionsQuery = "SELECT * FROM quiz_questions WHERE quiz_id = ?";
+  const quizId = req.params.id;
+  const query = "SELECT * FROM quizzes WHERE id = ?";
 
-  db.query(quizQuery, [id], (err, quizResults) => {
-    if (err) return res.status(500).json({ message: err.message });
-    if (quizResults.length === 0)
-      return res.status(404).json({ message: "Quiz not found." });
+  db.query(query, [quizId], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
 
-    db.query(questionsQuery, [id], (err, questionResults) => {
-      if (err) return res.status(500).json({ message: err.message });
+    if (result.length === 0) {
+      return res.status(404).json({ message: "Quiz not found" });
+    }
 
-      res
-        .status(200)
-        .json({ quiz: quizResults[0], questions: questionResults });
-    });
+    res.status(200).json(result[0]);
   });
 };
 
-// ➤ UPDATE a Quiz Title
-export const updateQuiz = (req, res) => {
-  const { id } = req.params;
-  const { title } = req.body;
+// Delete a quiz
+export const deleteQuiz = async (req, res) => {
+  // const quizId = req.params.id;
+  // try {
+  //   const [result] = await db.execute("DELETE FROM quizzes WHERE id = ?", [
+  //     quizId,
+  //   ]);
+  //   if (result.affectedRows === 0)
+  //     return res.status(404).json({ message: "Quiz not found" });
+  //   res.json({ message: "Quiz deleted" });
+  // } catch (err) {
+  //   res.status(500).json({ error: err.message });
+  // }
 
-  if (!title) return res.status(400).json({ message: "Title is required." });
+  const quizId = req.params.id;
+  const query = "DELETE FROM quizzes WHERE id = ?";
 
-  const updateQuery = "UPDATE quizzes SET title = ? WHERE id = ?";
-  db.query(updateQuery, [title, id], (err, result) => {
-    if (err) return res.status(500).json({ message: err.message });
-    if (result.affectedRows === 0)
-      return res.status(404).json({ message: "Quiz not found." });
+  db.query(query, [quizId], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
 
-    res.status(200).json({ message: "Quiz updated successfully!" });
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Quiz not found" });
+    }
+
+    res.json({ message: "Quiz deleted" });
   });
 };
 
-// ➤ DELETE a Quiz (Deletes All Related Questions)
-export const deleteQuiz = (req, res) => {
-  const { id } = req.params;
+// Add a question to a quiz
+// export const addQuestion = async (req, res) => {
+//   const quizId = req.params.quizId;
+//   const { question, option_a, option_b, option_c, option_d, correct_option } =
+//     req.body;
 
-  const deleteQuery = "DELETE FROM quizzes WHERE id = ?";
-  db.query(deleteQuery, [id], (err, result) => {
-    if (err) return res.status(500).json({ message: err.message });
-    if (result.affectedRows === 0)
-      return res.status(404).json({ message: "Quiz not found." });
+//   try {
+//     const [quizExists] = await db.execute(
+//       "SELECT id FROM quizzes WHERE id = ?",
+//       [quizId]
+//     );
+//     if (quizExists.length === 0)
+//       return res.status(404).json({ message: "Quiz not found" });
 
-    res.status(200).json({ message: "Quiz deleted successfully!" });
+//     const [result] = await db.execute(
+//       "INSERT INTO quiz_questions (quiz_id, question, option_a, option_b, option_c, option_d, correct_option) VALUES (?, ?, ?, ?, ?, ?, ?)",
+//       [quizId, question, option_a, option_b, option_c, option_d, correct_option]
+//     );
+//     res
+//       .status(201)
+//       .json({ message: "Question added", questionId: result.insertId });
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// };
+
+export const addQuestion = (req, res) => {
+  const quizId = req.params.quizId;
+  const { question, option_a, option_b, option_c, option_d, correct_option } =
+    req.body;
+
+  // Check if the quiz exists
+  const checkQuizQuery = "SELECT id FROM quizzes WHERE id = ?";
+  db.query(checkQuizQuery, [quizId], (err, quizExists) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    if (quizExists.length === 0) {
+      return res.status(404).json({ message: "Quiz not found" });
+    }
+
+    // Add the question
+    const insertQuestionQuery =
+      "INSERT INTO quiz_questions (quiz_id, question, option_a, option_b, option_c, option_d, correct_option) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    db.query(
+      insertQuestionQuery,
+      [
+        quizId,
+        question,
+        option_a,
+        option_b,
+        option_c,
+        option_d,
+        correct_option,
+      ],
+      (err, result) => {
+        if (err) {
+          return res.status(500).json({ error: err.message });
+        }
+
+        res
+          .status(201)
+          .json({ message: "Question added", questionId: result.insertId });
+      }
+    );
+  });
+};
+
+// Get all questions for a quiz
+// export const getQuestions = async (req, res) => {
+//   const quizId = req.params.quizId;
+//   try {
+//     const [results] = await db.execute(
+//       "SELECT * FROM quiz_questions WHERE quiz_id = ?",
+//       [quizId]
+//     );
+//     res.json(results);
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// };
+
+export const getQuestions = (req, res) => {
+  const quizId = req.params.quizId;
+  const query = "SELECT * FROM quiz_questions WHERE quiz_id = ?";
+
+  db.query(query, [quizId], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    res.json(results);
   });
 };

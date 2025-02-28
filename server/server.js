@@ -42,7 +42,7 @@ app.use("/api/assignments", assignmentsRoutes);
 app.use("/api/submissions", submissionsRoutes);
 app.use("/api/discussions", DiscussionRoutes);
 app.use("/api/announcements", announcementsRoutes);
-app.use("/api/quizzesRoutes", quizzesRoutes);
+app.use("/api/quizzes", quizzesRoutes);
 
 app.listen(port, () => {
   console.log(`API working on ${port}`);
