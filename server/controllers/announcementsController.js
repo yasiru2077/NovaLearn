@@ -42,6 +42,20 @@ export const getAnnouncements = (req, res) => {
   });
 };
 
+export const getAllAnnouncements = (req, res) => {
+  const query = `
+        SELECT a.*, l.username AS lecturer_name
+        FROM announcements a
+        JOIN lmsAuth l ON a.lecturer_id = l.id
+        ORDER BY a.posted_at DESC`;
+  
+  db.query(query, (err, results) => {
+    if (err) return res.status(500).json({ message: err.message });
+    
+    res.status(200).json(results);
+  });
+};
+
 // ➤ UPDATE an Announcement (Only the Lecturer Can Update)
 export const updateAnnouncement = (req, res) => {
   const { id } = req.params;

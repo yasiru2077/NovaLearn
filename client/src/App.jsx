@@ -13,6 +13,7 @@ import Login from "./pages/login/login";
 import NotFound from "./content/not-found";
 import Layout from "./content/layout";
 import Home from "./pages/home/home";
+import Announcements from "./content/admin-content/announcements/announcements";
 
 const ProtectedRoute = ({ isAuthenticated }) => {
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
@@ -51,6 +52,7 @@ function App() {
         <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
           <Route element={<Layout userDetails={userDetails} setIsAuthenticated={setIsAuthenticated} />}>
             <Route path="/" element={<Home userDetails={userDetails} />} />
+            <Route path="/announcement" element={<Announcements/>}/>
           </Route>
         </Route>
       </Routes>

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { useActionData, useNavigate } from "react-router-dom";
+import { Link, Links, useActionData, useNavigate } from "react-router-dom";
 import "./main-nav.css";
 import NotFound from "../not-found";
 
@@ -41,7 +41,9 @@ function MainNavbar({ setIsAuthenticated, userDetails }) {
         {user.role === "admin" ? (
           <ul>
             <li>Home</li>
-            <li>Announcements</li>
+            <li>
+              <Link to={`/announcement`}>Announcement</Link>
+            </li>
             <li>User Management</li>
             <li>Enrollments</li>
           </ul>
