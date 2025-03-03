@@ -49,7 +49,7 @@ function App() {
         />
         <Route path="*" element={<NotFound />} />
         <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
-          <Route element={<Layout setIsAuthenticated={setIsAuthenticated} />}>
+          <Route element={<Layout userDetails={userDetails} setIsAuthenticated={setIsAuthenticated} />}>
             <Route path="/" element={<Home userDetails={userDetails} />} />
           </Route>
         </Route>
