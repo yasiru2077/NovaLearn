@@ -1,3 +1,23 @@
-.logo{
-    font-weight: 700;
+.logo {
+  font-weight: 700;
+}
+
+.main-nav-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: blue;
+}
+
+.main-nav-bar > div > ul {
+  display: flex;
+  background-color: aqua;
+  list-style-type: none;
+  gap: 20px;
+  padding: 0;
+}
+
+.logout-container > ul > div{
+
 }

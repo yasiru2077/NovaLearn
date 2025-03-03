@@ -33,16 +33,17 @@ function MainNavbar({ setIsAuthenticated, userDetails }) {
   };
 
   return (
-    <section>
+    <section className="main-nav-bar">
       <div>
         <h1 className="logo">[NOVALEARN]</h1>
       </div>
-      <div>
+      <div className="page-links">
         {user.role === "admin" ? (
           <ul>
             <li>Home</li>
             <li>Announcements</li>
             <li>User Management</li>
+            <li>Enrollments</li>
           </ul>
         ) : user.role === "lecturer" ? (
           <ul>
@@ -53,15 +54,15 @@ function MainNavbar({ setIsAuthenticated, userDetails }) {
             <li>Home</li>
           </ul>
         ) : (
-          <NotFound />
+          ""
         )}
       </div>
-      <div>
+      <div className="logout-container">
         <ul>
-          <ul>
+          <div>
             <li className="user-name">{user.username}</li>
             <span className="role">{user.role}</span>
-          </ul>
+          </div>
           <li onClick={handleLogOut} style={{ cursor: "pointer" }}>
             logout
           </li>
