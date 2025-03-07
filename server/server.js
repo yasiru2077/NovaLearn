@@ -16,7 +16,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 const port = 3000;
-
+const FRONTEND_URL = "http://localhost:5173";
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", true);
   next();
@@ -26,7 +26,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: `http://localhost:5173`,
+    origin: FRONTEND_URL,
     credentials: true,
   })
 );

@@ -80,3 +80,22 @@ export const logout = (req, res) => {
     .status(200)
     .json("User has been logged out");
 };
+
+export const verify = (req, res) => {
+  // If middleware verifyToken passes, the user is authenticated
+  // Return the user details from the database
+  const q = "SELECT * FROM lmsAuth WHERE id = ?";
+  
+  db.query(q, [req.userId], (err, data) => {
+    if (err) {
+      return res.status(500).json(err);
+    }
+    
+    if (data.length === 0) {
+      return res.status(404).json("User not found!");
+    }
+    
+    const { password, ...userWithoutPassword } = data[0];
+    return res.status(200).json(userWithoutPassword);
+  });
+};

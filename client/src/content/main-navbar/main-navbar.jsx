@@ -1,10 +1,10 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Links, useActionData, useNavigate } from "react-router-dom";
 import "./main-nav.css";
 import NotFound from "../not-found";
 
-function MainNavbar({ setIsAuthenticated, userDetails }) {
+function MainNavbar({ setIsAuthenticated, userDetails, isAuthenticated }) {
   const [user, setUser] = useState({
     username: userDetails.username,
     role: userDetails.role,
@@ -13,7 +13,7 @@ function MainNavbar({ setIsAuthenticated, userDetails }) {
 
   console.log(userDetails);
 
-  const navigate = useNavigate;
+  const navigate = useNavigate();
 
   const handleLogOut = async () => {
     try {
@@ -32,6 +32,12 @@ function MainNavbar({ setIsAuthenticated, userDetails }) {
     }
   };
 
+  // useEffect(() => {
+  //   if (!isAuthenticated) {
+  //     navigate("/login");
+  //   }
+  // }, [isAuthenticated]);
+
   return (
     <section className="main-nav-bar">
       <div>
@@ -44,7 +50,9 @@ function MainNavbar({ setIsAuthenticated, userDetails }) {
             <li>
               <Link to={`/announcement`}>Announcement</Link>
             </li>
-            <li>User Management</li>
+            <li>
+              <Link to={`/user-management`}> User Management</Link>
+            </li>
             <li>Enrollments</li>
           </ul>
         ) : user.role === "lecturer" ? (
