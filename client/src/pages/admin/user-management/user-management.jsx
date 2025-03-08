@@ -11,6 +11,13 @@ function UserManagement() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingUserId, setEditingUserId] = useState(null);
   const [deleteMessage, setDeleteMessage] = useState(null);
+  // const [allStudent, setAllStudent] = useState([]);
+  // const [allLecturer, setAllLecturer] = useState([]);
+
+  const allStudent = users.filter((user) => user.role === "student");
+  const allLecturer = users.filter((user) => user.role === "lecturer")
+
+  
 
   const fetchUsers = () => {
     setLoading(true);
@@ -37,7 +44,7 @@ function UserManagement() {
 
   useEffect(() => {
     fetchUsers();
-  }, [users]);
+  }, []);
 
   const handleDelete = async (userId) => {
     if (!window.confirm("Are you sure you want to delete this user?")) {
