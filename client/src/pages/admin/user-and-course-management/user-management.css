@@ -1,4 +1,4 @@
-.user-management-container {
+/* .user-management-container {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: 1fr;
@@ -11,4 +11,4 @@
 }
 .user-management-container > section:last-child {
   grid-area: 1 / 2 / 2 / 6;
-}
+} */

@@ -51,9 +51,11 @@ function MainNavbar({ setIsAuthenticated, userDetails, isAuthenticated }) {
               <Link to={`/announcement`}>Announcement</Link>
             </li>
             <li>
-              <Link to={`/user-management`}> User Management</Link>
+              <Link to={`/user-management`}> User & Course Management</Link>
             </li>
-            <li>Enrollments</li>
+            <li>
+              <Link to={`/enrollment`}>Enrollments</Link>
+            </li>
           </ul>
         ) : user.role === "lecturer" ? (
           <ul>

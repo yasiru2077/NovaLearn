@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -17,6 +17,7 @@ import Announcements from "./pages/admin/announcements/announcements";
 import AdminContent from "./content/admin-content/admin-content";
 import axios from "axios";
 import UserManagement from "./pages/admin/user-management/user-management";
+import Enrollment from "./pages/admin/enrollment/enrollment";
 
 const ProtectedRoute = ({ isAuthenticated }) => {
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
@@ -103,7 +104,11 @@ function App() {
             <Route path="/announcement" element={<Announcements />} />
 
             {userDetails.role ? (
-              <Route path="/user-management" element={<UserManagement />} />
+              <React.Fragment>
+                <Route path="/user-management" element={<UserManagement />} />
+                <Route path="/enrollment" element={<Enrollment />} />
+                {/* <Route path="/user-management" element={<UserManagement />} /> */}
+              </React.Fragment>
             ) : (
               <NotFound />
             )}

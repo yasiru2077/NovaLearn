@@ -11,13 +11,11 @@ function UserManagement() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingUserId, setEditingUserId] = useState(null);
   const [deleteMessage, setDeleteMessage] = useState(null);
-  // const [allStudent, setAllStudent] = useState([]);
+  const [isStudent, setIsStudent] = useState(true);
   // const [allLecturer, setAllLecturer] = useState([]);
 
   const allStudent = users.filter((user) => user.role === "student");
-  const allLecturer = users.filter((user) => user.role === "lecturer")
-
-  
+  const allLecturer = users.filter((user) => user.role === "lecturer");
 
   const fetchUsers = () => {
     setLoading(true);
@@ -95,9 +93,7 @@ function UserManagement() {
   return (
     <React.Fragment>
       <main className="user-management-container">
-        <section>
-          <SideNavigation />
-        </section>
+      
         <section>
           <h1>User Management</h1>
           {deleteMessage && (
@@ -131,6 +127,23 @@ function UserManagement() {
             </div>
           )}
 
+          <div>
+            <button
+              onClick={() => {
+                setIsStudent(true);
+              }}
+            >
+              student
+            </button>
+            <button
+              onClick={() => {
+                setIsStudent(false);
+              }}
+            >
+              lecturer
+            </button>
+          </div>
+
           <h2>User List</h2>
           {users.length === 0 ? (
             <p>No users found.</p>
@@ -146,7 +159,7 @@ function UserManagement() {
                     <th>Actions</th>
                   </tr>
                 </thead>
-                <tbody>
+                {/* <tbody>
                   {users.map((user) => (
                     <tr key={user.id}>
                       <td>{user.id}</td>
@@ -170,7 +183,61 @@ function UserManagement() {
                       </td>
                     </tr>
                   ))}
-                </tbody>
+                </tbody> */}
+                {isStudent && (
+                  <tbody>
+                    {allStudent.map((user) => (
+                      <tr key={user.id}>
+                        <td>{user.id}</td>
+                        <td>{user.username}</td>
+                        <td>{user.email}</td>
+                        <td>{user.role}</td>
+                        <td className="action-buttons">
+                          <button
+                            className="edit-button"
+                            onClick={() => setEditingUserId(user.id)}
+                            disabled={editingUserId !== null}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="delete-button"
+                            onClick={() => handleDelete(user.id)}
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                )}
+                {!isStudent && (
+                  <tbody>
+                    {allLecturer.map((user) => (
+                      <tr key={user.id}>
+                        <td>{user.id}</td>
+                        <td>{user.username}</td>
+                        <td>{user.email}</td>
+                        <td>{user.role}</td>
+                        <td className="action-buttons">
+                          <button
+                            className="edit-button"
+                            onClick={() => setEditingUserId(user.id)}
+                            disabled={editingUserId !== null}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="delete-button"
+                            onClick={() => handleDelete(user.id)}
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                )}
               </table>
             </div>
           )}
