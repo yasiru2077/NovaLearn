@@ -16,8 +16,9 @@ import Home from "./pages/home/home";
 import Announcements from "./pages/admin/announcements/announcements";
 import AdminContent from "./content/admin-content/admin-content";
 import axios from "axios";
-import UserManagement from "./pages/admin/user-management/user-management";
+import UserManagement from "./pages/admin/user-and-course-management/user-management";
 import Enrollment from "./pages/admin/enrollment/enrollment";
+import CourseManagement from "./pages/admin/user-and-course-management/course-management";
 
 const ProtectedRoute = ({ isAuthenticated }) => {
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
@@ -107,7 +108,8 @@ function App() {
               <React.Fragment>
                 <Route path="/user-management" element={<UserManagement />} />
                 <Route path="/enrollment" element={<Enrollment />} />
-                {/* <Route path="/user-management" element={<UserManagement />} /> */}
+                <Route path="/course-management" element={<CourseManagement />} />
+              
               </React.Fragment>
             ) : (
               <NotFound />

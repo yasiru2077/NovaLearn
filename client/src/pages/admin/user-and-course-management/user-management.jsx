@@ -3,6 +3,7 @@ import AddUser from "../../../content/admin-content/user-management/add-user.jsx
 import UpdateUser from "../../../content/admin-content/user-management/update-user.jsx";
 import SideNavigation from "../../../content/admin-content/side-navigation/side-navigation.jsx";
 import "./user-management.css";
+import { Link } from "react-router-dom";
 
 function UserManagement() {
   const [users, setUsers] = useState([]);
@@ -93,9 +94,11 @@ function UserManagement() {
   return (
     <React.Fragment>
       <main className="user-management-container">
-      
         <section>
-          <h1>User Management</h1>
+          <h1>
+            <Link to={`/course-management`}>Course Management</Link>/
+            <Link to={`/user-management`}>User Management</Link>
+          </h1>
           {deleteMessage && (
             <div className="success-message">{deleteMessage}</div>
           )}
