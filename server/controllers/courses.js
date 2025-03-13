@@ -30,8 +30,16 @@ export const getCourse = (req, res) => {
   //   LEFT JOIN lmsAuth ON courses.lecturer_id = lmsAuth.id
   // `;
 
-  const q =
-    "select courses.id, courses.title,courses.description,courses.lecturer_id from courses";
+  // const q =
+  //   "select courses.id, courses.title,courses.description,courses.lecturer_id from courses";
+
+  const q = `
+    SELECT c.*, l.username AS lecturer_name 
+FROM courses c 
+JOIN lmsAuth l ON c.lecturer_id = l.id 
+ORDER BY c.created_at DESC
+    `;
+
   db.query(q, (err, data) => {
     if (err) return res.status(500).json(err);
     return res.status(200).json(data);
@@ -47,7 +55,7 @@ export const updateCourse = (req, res) => {
   const q =
     "UPDATE courses SET title = ?, description = ?, lecturer_id = ? WHERE id = ? ";
 
-  db.query(q, [title, description, req.params.id, req.userId], (err, data) => {
+  db.query(q, [title, description, req.userId, req.params.id], (err, data) => {
     if (err) return res.status(500).json(err);
     if (data.affectedRows === 0)
       return res.status(403).json("Not authorized to update this course!");

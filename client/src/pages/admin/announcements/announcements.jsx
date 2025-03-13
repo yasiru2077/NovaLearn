@@ -9,7 +9,6 @@ function Announcements() {
   // http://localhost:3000/api/courses/all
   // http://localhost:3000/api/announcements/all
 
-  console.log(course);
   
 
   useEffect(() => {
