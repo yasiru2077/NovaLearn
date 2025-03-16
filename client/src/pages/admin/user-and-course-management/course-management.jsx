@@ -12,8 +12,6 @@ function CourseManagement() {
   const [deleteMessage, setDeleteMessage] = useState();
 
   const handleDelete = async (courseId) => {
-    console.log("jfhnfnjf");
-
     if (!window.confirm("Are you sure want to delete this course")) {
       return;
     }
@@ -86,7 +84,11 @@ function CourseManagement() {
         <AddCourse onUpdateAndAdd={handleUpdateAndAdd} />
       </div>
       <div>
-        <UpdateCourse onUpdateAndAdd={handleUpdateAndAdd} courses={courses} editingCourseId={editingCourseId} />
+        <UpdateCourse
+          onUpdateAndAdd={handleUpdateAndAdd}
+          courses={courses}
+          editingCourseId={editingCourseId}
+        />
       </div>
       <div>
         {courses.map((courses) => (

@@ -6,7 +6,6 @@ import UpdateEnrollments from "../../../content/admin-content/enrollments/update
 function Enrollment() {
   const [enrollment, setEnrollment] = useState([]);
   const [editingEnrollmentId, setEditingEnrollmentId] = useState(null);
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
   const [deleteMessage, setDeleteMessage] = useState();
@@ -41,8 +40,6 @@ function Enrollment() {
   }, []);
 
   const handleDelete = async (enrollemtId) => {
-    console.log("hfja");
-
     if (!window.confirm("Are you sure want to delete this enrollment?")) {
       return;
     }
@@ -78,7 +75,11 @@ function Enrollment() {
         <AddEnrollments />
       </div>
       <div>
-        <UpdateEnrollments />
+        <UpdateEnrollments
+          enrollment={enrollment}
+          editingEnrollmentId={editingEnrollmentId}
+          fetchEnrollments={fetchEnrollments}
+        />
       </div>
       <div>
         {enrollment.map((enrollment) => (

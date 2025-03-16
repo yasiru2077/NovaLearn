@@ -14,18 +14,16 @@ export const Enroll = (req, res) => {
   const query = "INSERT INTO enrollments (student_id, course_id) VALUES (?, ?)";
   db.query(query, [student_id, course_id], (err, result) => {
     if (err) return res.status(500).json({ error: err.message });
-    res
-      .status(201)
-      .json({
-        message: "Student enrolled successfully",
-        enrollmentId: result.insertId,
-      });
+    res.status(201).json({
+      message: "Student enrolled successfully",
+      enrollmentId: result.insertId,
+    });
   });
 };
 
 // Get all enrollments
 export const getEnrollment = (req, res) => {
-  const query = `SELECT enrollments.id, lmsAuth.username AS student, courses.title AS course, enrollments.enrolled_at 
+  const query = `SELECT enrollments.id,  enrollments.student_id,  enrollments.course_id,  lmsAuth.username AS student, courses.title AS course, enrollments.enrolled_at 
                  FROM enrollments 
                  JOIN lmsAuth ON enrollments.student_id = lmsAuth.id 
                  JOIN courses ON enrollments.course_id = courses.id`;
