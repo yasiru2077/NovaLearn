@@ -45,7 +45,7 @@
   background-color: #1c1e53;
 }
 
-.mobile-nav > img {
+.mobile-nav > .mobile-nav-active > img {
   width: 30px;
 }
 
@@ -63,15 +63,53 @@
 
   .mobile-nav {
     padding: 10px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
+    display: block;
     z-index: 40;
     /* height: 100vh; */
     width: 100%;
     position: fixed;
     left: 0;
     top: 0;
+  }
+
+  .mobile-nav > .mobile-nav-active {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+  }
+
+  .mobile-nav-content {
+    position: relative;
+    top: 25%;
+    font-weight: 500;
+    font-size: 20px;
+  }
+
+  .mobile-nav > .mobile-nav-content > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      li {
+        cursor: pointer;
+        padding-top: 15%;
+        text-decoration: none;
+        color: white;
+        a {
+          text-decoration: none;
+          color: white;
+        }
+      }
+    }
+  }
+
+  .mobile-nav > .mobile-nav-content > div > ul > li:hover {
+    text-decoration: underline;
   }
 
   .mobile-nav-drop-down {

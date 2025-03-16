@@ -52,14 +52,52 @@ function MainNavbar({ setIsAuthenticated, userDetails, isAuthenticated }) {
       <section
         className={`mobile-nav ${activateNav ? "mobile-nav-drop-down" : ""}`}
       >
-        <div>
-          <h1 className="logo">[NOVALEARN]</h1>
-        </div>
+        <div className="mobile-nav-active">
+          <div>
+            <h1 className="logo">[NOVALEARN]</h1>
+          </div>
 
-        {activateNav === true ? (
-          <img src={navIcon} onClick={handleNav} alt="" />
-        ) : (
-          <img src={navAfterIcon} onClick={handleNav} alt="" />
+          {activateNav === true ? (
+            <img src={navIcon} onClick={handleNav} alt="" />
+          ) : (
+            <img src={navAfterIcon} onClick={handleNav} alt="" />
+          )}
+        </div>
+        {activateNav && (
+          <div className="mobile-nav-content">
+            <div>
+              {user.role === "admin" ? (
+                <ul>
+                  <li>Home</li>
+                  <li>
+                    <Link to={`/announcement`} onClick={handleNav}>Announcement</Link>
+                  </li>
+                  <li>
+                    <Link to={`/user-management`} onClick={handleNav}>
+                      {" "}
+                      User & Course Management
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={`/enrollment`} onClick={handleNav}>Enrollments</Link>
+                  </li>
+                  <li onClick={handleLogOut}>Logout</li>
+                </ul>
+              ) : user.role === "lecturer" ? (
+                <ul>
+                  <li>Home</li>
+                  <li onClick={handleLogOut}>Logout</li>
+                </ul>
+              ) : user.role === "student" ? (
+                <ul>
+                  <li>Home</li>
+                  <li onClick={handleLogOut}>Logout</li>
+                </ul>
+              ) : (
+                ""
+              )}
+            </div>
+          </div>
         )}
       </section>
 
