@@ -20,6 +20,7 @@ import UserManagement from "./pages/admin/user-and-course-management/user-manage
 import Enrollment from "./pages/admin/enrollment/enrollment";
 import CourseManagement from "./pages/admin/user-and-course-management/course-management";
 import AnnouncementLecturer from "./pages/lectures/announcement-lecturer/announcement-lecturer";
+import DiscussionPage from "./pages/lectures/discussion-page/discussion-page";
 
 const ProtectedRoute = ({ isAuthenticated }) => {
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
@@ -104,6 +105,7 @@ function App() {
           >
             <Route path="/" element={<Home userDetails={userDetails} />} />
             <Route path="/announcement" element={<Announcements />} />
+            <Route path="/discussion" element={<DiscussionPage userDetails={userDetails}/>} />
 
             {userDetails.role === "admin" ? (
               <React.Fragment>
@@ -119,7 +121,7 @@ function App() {
               <React.Fragment>
                 <Route
                   path="/mainAnnouncement"
-                  element={<AnnouncementLecturer userDetails={userDetails}/>}
+                  element={<AnnouncementLecturer userDetails={userDetails} />}
                 />
               </React.Fragment>
             ) : (

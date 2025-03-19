@@ -102,11 +102,21 @@ function MainNavbar({ setIsAuthenticated, userDetails, isAuthenticated }) {
                       Announcement
                     </Link>
                   </li>
+                  <li>
+                    <Link to={`/discussion`} onClick={handleNav}>
+                      Discussions
+                    </Link>
+                  </li>
                   <li onClick={handleLogOut}>Logout</li>
                 </ul>
               ) : user.role === "student" ? (
                 <ul>
                   <li>Home</li>
+                  <li>
+                    <Link to={`/discussion`} onClick={handleNav}>
+                      Discussions
+                    </Link>
+                  </li>
                   <li onClick={handleLogOut}>Logout</li>
                 </ul>
               ) : (
@@ -149,6 +159,12 @@ function MainNavbar({ setIsAuthenticated, userDetails, isAuthenticated }) {
               <li>
                 <Link to={`/mainAnnouncement`} onClick={handleNav}>
                   Announcement
+                </Link>
+              </li>
+
+              <li>
+                <Link to={`/discussion`} onClick={handleNav}>
+                  Discussions
                 </Link>
               </li>
             </ul>
