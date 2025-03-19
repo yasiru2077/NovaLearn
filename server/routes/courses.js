@@ -11,7 +11,7 @@ const router = express.Router();
 
 // Protect all routes with verifyToken and verifyAdmin
 router.post("/add", verifyToken, verifyAdmin, addCourse);
-router.get("/all", verifyToken, verifyAdmin, getCourse);
+router.get("/all", verifyToken, getCourse);
 router.put("/update/:id", verifyToken, verifyAdmin, updateCourse);
 router.delete("/delete/:id", verifyToken, verifyAdmin, deleteCourse);
 

@@ -20,7 +20,7 @@ function MainNavbar({ setIsAuthenticated, userDetails, isAuthenticated }) {
     setActivateNav(!activateNav);
   };
 
-  console.log(userDetails);
+  console.log("userdetails:", userDetails);
 
   const navigate = useNavigate();
 
@@ -68,9 +68,15 @@ function MainNavbar({ setIsAuthenticated, userDetails, isAuthenticated }) {
             <div>
               {user.role === "admin" ? (
                 <ul>
-                  <li>Home</li>
                   <li>
-                    <Link to={`/announcement`} onClick={handleNav}>Announcement</Link>
+                    <Link to={`/`} onClick={handleNav}>
+                      Home
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={`/announcement`} onClick={handleNav}>
+                      Announcement
+                    </Link>
                   </li>
                   <li>
                     <Link to={`/user-management`} onClick={handleNav}>
@@ -79,13 +85,23 @@ function MainNavbar({ setIsAuthenticated, userDetails, isAuthenticated }) {
                     </Link>
                   </li>
                   <li>
-                    <Link to={`/enrollment`} onClick={handleNav}>Enrollments</Link>
+                    <Link to={`/enrollment`} onClick={handleNav}>
+                      Enrollments
+                    </Link>
                   </li>
                   <li onClick={handleLogOut}>Logout</li>
                 </ul>
               ) : user.role === "lecturer" ? (
                 <ul>
-                  <li>Home</li>
+                  <li>
+                    {" "}
+                    <Link to={`/`}>Home</Link>
+                  </li>
+                  <li>
+                    <Link to={`/mainAnnouncement`} onClick={handleNav}>
+                      Announcement
+                    </Link>
+                  </li>
                   <li onClick={handleLogOut}>Logout</li>
                 </ul>
               ) : user.role === "student" ? (
@@ -108,7 +124,11 @@ function MainNavbar({ setIsAuthenticated, userDetails, isAuthenticated }) {
         <div className="page-links">
           {user.role === "admin" ? (
             <ul>
-              <li>Home</li>
+              <li>
+                <Link to={`/`} onClick={handleNav}>
+                  Home
+                </Link>
+              </li>
               <li>
                 <Link to={`/announcement`}>Announcement</Link>
               </li>
@@ -121,7 +141,16 @@ function MainNavbar({ setIsAuthenticated, userDetails, isAuthenticated }) {
             </ul>
           ) : user.role === "lecturer" ? (
             <ul>
-              <li>Home</li>
+              <li>
+                <Link to={`/`} onClick={handleNav}>
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to={`/mainAnnouncement`} onClick={handleNav}>
+                  Announcement
+                </Link>
+              </li>
             </ul>
           ) : user.role === "student" ? (
             <ul>

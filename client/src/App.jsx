@@ -19,6 +19,7 @@ import axios from "axios";
 import UserManagement from "./pages/admin/user-and-course-management/user-management";
 import Enrollment from "./pages/admin/enrollment/enrollment";
 import CourseManagement from "./pages/admin/user-and-course-management/course-management";
+import AnnouncementLecturer from "./pages/lectures/announcement-lecturer/announcement-lecturer";
 
 const ProtectedRoute = ({ isAuthenticated }) => {
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
@@ -104,12 +105,22 @@ function App() {
             <Route path="/" element={<Home userDetails={userDetails} />} />
             <Route path="/announcement" element={<Announcements />} />
 
-            {userDetails.role ? (
+            {userDetails.role === "admin" ? (
               <React.Fragment>
                 <Route path="/user-management" element={<UserManagement />} />
                 <Route path="/enrollment" element={<Enrollment />} />
-                <Route path="/course-management" element={<CourseManagement />} />
-                
+                <Route
+                  path="/course-management"
+                  element={<CourseManagement />}
+                />
+              </React.Fragment>
+            ) : userDetails.role === "lecturer" ? (
+              // <NotFound />
+              <React.Fragment>
+                <Route
+                  path="/mainAnnouncement"
+                  element={<AnnouncementLecturer userDetails={userDetails}/>}
+                />
               </React.Fragment>
             ) : (
               <NotFound />
