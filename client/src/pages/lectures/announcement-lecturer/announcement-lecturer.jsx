@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import AddAnnouncement from "../../../content/teacher-content/announcement/add-announcement";
 import UpdateAnnouncement from "../../../content/teacher-content/announcement/update-announcement";
+import "./announcement.css";
 
 function AnnouncementLecturer({ userDetails }) {
   const [announcements, setAnnouncements] = useState([]);
@@ -132,7 +133,7 @@ function AnnouncementLecturer({ userDetails }) {
   };
 
   return (
-    <main>
+    <main className="announcement-lec">
       <h1>Your Announcements</h1>
 
       <div>

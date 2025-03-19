@@ -89,6 +89,7 @@ function MainNavbar({ setIsAuthenticated, userDetails, isAuthenticated }) {
                       Enrollments
                     </Link>
                   </li>
+
                   <li onClick={handleLogOut}>Logout</li>
                 </ul>
               ) : user.role === "lecturer" ? (
@@ -107,6 +108,18 @@ function MainNavbar({ setIsAuthenticated, userDetails, isAuthenticated }) {
                       Discussions
                     </Link>
                   </li>
+
+                  <li>
+                    <Link to={`/learning-materials`} onClick={handleNav}>
+                      learning materials
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={`/assignmentAdd`} onClick={handleNav}>
+                      Assignments
+                    </Link>
+                  </li>
+
                   <li onClick={handleLogOut}>Logout</li>
                 </ul>
               ) : user.role === "student" ? (
@@ -165,6 +178,18 @@ function MainNavbar({ setIsAuthenticated, userDetails, isAuthenticated }) {
               <li>
                 <Link to={`/discussion`} onClick={handleNav}>
                   Discussions
+                </Link>
+              </li>
+
+              <li>
+                <Link to={`/learning-materials`} onClick={handleNav}>
+                  learning materials
+                </Link>
+              </li>
+
+              <li>
+                <Link to={`/assignmentAdd`} onClick={handleNav}>
+                  Assignments
                 </Link>
               </li>
             </ul>
