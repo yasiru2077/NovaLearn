@@ -112,7 +112,7 @@ function App() {
               element={<DiscussionPage userDetails={userDetails} />}
             />
 
-            {userDetails.role === "admin" ? (
+            {userDetails && userDetails.role === "admin" ? (
               <React.Fragment>
                 <Route path="/user-management" element={<UserManagement />} />
                 <Route path="/enrollment" element={<Enrollment />} />
@@ -121,8 +121,7 @@ function App() {
                   element={<CourseManagement />}
                 />
               </React.Fragment>
-            ) : userDetails.role === "lecturer" ? (
-              // <NotFound />
+            ) : userDetails && userDetails.role === "lecturer" ? (
               <React.Fragment>
                 <Route
                   path="/mainAnnouncement"
@@ -137,12 +136,18 @@ function App() {
                   element={<Assignments userDetails={userDetails} />}
                 />
               </React.Fragment>
+            ) : userDetails && userDetails.role === "student" ? (
+              <React.Fragment>
+                <Route path="/" element={<Home userDetails={userDetails} />} />
+                <Route path="/" />
+              </React.Fragment>
             ) : (
-              <NotFound />
+              <React.Fragment>
+                <Route path="/" element={<NotFound />} />
+              </React.Fragment>
             )}
           </Route>
         </Route>
-        {/* <Route path="/" element={<AdminContent />} /> */}
       </Routes>
     </Router>
   );
