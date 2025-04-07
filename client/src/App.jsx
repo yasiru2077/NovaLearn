@@ -23,6 +23,8 @@ import AnnouncementLecturer from "./pages/lectures/announcement-lecturer/announc
 import DiscussionPage from "./pages/lectures/discussion-page/discussion-page";
 import LearningMaterials from "./pages/lectures/learning-materials/learning-materials";
 import Assignments from "./pages/lectures/assignment/assignments";
+import AnnouncementsStudents from "./pages/students/announcements/announcements-students";
+import DiscussionStudents from "./pages/students/discussion/discussion-students";
 
 const ProtectedRoute = ({ isAuthenticated }) => {
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
@@ -107,10 +109,6 @@ function App() {
           >
             <Route path="/" element={<Home userDetails={userDetails} />} />
             <Route path="/announcement" element={<Announcements />} />
-            <Route
-              path="/discussion"
-              element={<DiscussionPage userDetails={userDetails} />}
-            />
 
             {userDetails && userDetails.role === "admin" ? (
               <React.Fragment>
@@ -123,6 +121,10 @@ function App() {
               </React.Fragment>
             ) : userDetails && userDetails.role === "lecturer" ? (
               <React.Fragment>
+                <Route
+                  path="/discussion"
+                  element={<DiscussionPage userDetails={userDetails} />}
+                />
                 <Route
                   path="/mainAnnouncement"
                   element={<AnnouncementLecturer userDetails={userDetails} />}
@@ -139,7 +141,14 @@ function App() {
             ) : userDetails && userDetails.role === "student" ? (
               <React.Fragment>
                 <Route path="/" element={<Home userDetails={userDetails} />} />
-                <Route path="/" />
+                <Route
+                  path="/announcementStudents"
+                  element={<AnnouncementsStudents userDetails={userDetails} />}
+                />
+                <Route
+                  path="/discussion"
+                  element={<DiscussionStudents userDetails={userDetails} />}
+                />
               </React.Fragment>
             ) : (
               <React.Fragment>

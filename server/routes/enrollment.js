@@ -11,7 +11,7 @@ const router = express.Router();
 
 // Protect all routes with verifyToken and verifyAdmin
 router.post("/add", verifyToken, verifyAdmin, Enroll); // Add a user
-router.get("/all", verifyToken, verifyAdmin, getEnrollment); // Get all users
+router.get("/all", verifyToken, getEnrollment); // Get all users
 router.put("/update/:id", verifyToken, verifyAdmin, updateEnrollment); // Update user details
 router.delete("/delete/:id", verifyToken, verifyAdmin, deleteEnrollment); // Delete a user
 

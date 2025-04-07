@@ -25,7 +25,7 @@ function Home({ userDetails }) {
       })} */}
 
       {userRole === "student" ? (
-        <StudentContent />
+        <StudentContent userDetails={userDetails} />
       ) : userRole === "lecturer" ? (
         <TeacherContent />
       ) : userRole === "admin" ? (

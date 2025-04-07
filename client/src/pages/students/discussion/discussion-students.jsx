@@ -1,19 +1,27 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import "./DiscussionForum.css";
+import React, { useEffect, useState } from "react";
 
-function DiscussionForum({ courseId, userDetails }) {
+function DiscussionStudents({ userDetails }) {
   const [discussions, setDiscussions] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [editingId, setEditingId] = useState(null);
-  const [editMessage, setEditMessage] = useState("");
+  const [enrollment, setEnrollment] = useState(null);
   const [statusMessage, setStatusMessage] = useState(null);
+  const [editMessage, setEditMessage] = useState("");
+  const [editingId, setEditingId] = useState(null);
 
+  // First useEffect only fetches enrollment
   useEffect(() => {
-    fetchDiscussions();
-  }, [courseId]);
+    fetchEnrollment();
+  }, []);
+
+  // Second useEffect watches for enrollment changes and fetches discussions when enrollment is available
+  useEffect(() => {
+    if (enrollment?.course_id) {
+      fetchDiscussions();
+    }
+  }, [enrollment]);
 
   const fetchDiscussions = async () => {
     setLoading(true);
@@ -21,11 +29,14 @@ function DiscussionForum({ courseId, userDetails }) {
       const response = await axios.get(
         `http://localhost:3000/api/discussions/all`,
         {
-          params: { course_id: courseId },
+          params: { course_id: enrollment.course_id },
           withCredentials: true,
         }
       );
+      // Axios already parses JSON - no need for response.json()
       setDiscussions(response.data);
+      console.log(response.data);
+
       setError(null);
     } catch (err) {
       setError(err.response?.data?.message || "Failed to load discussions");
@@ -33,6 +44,42 @@ function DiscussionForum({ courseId, userDetails }) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const fetchEnrollment = () => {
+    fetch("http://localhost:3000/api/enrollment/all", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Response is not JSON");
+        }
+
+        const data = await response.json();
+
+        const filteredEnrollments = data.filter(
+          (e) => e.student === userDetails.username
+        );
+
+        if (filteredEnrollments.length > 0) {
+          setEnrollment(filteredEnrollments[0]);
+        } else {
+          console.log("No enrollments found for this student");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching enrollments:", error);
+        setError("Failed to load enrollments. Please try again later.");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const handleSubmit = async (e) => {
@@ -43,7 +90,7 @@ function DiscussionForum({ courseId, userDetails }) {
       await axios.post(
         "http://localhost:3000/api/discussions/add",
         {
-          course_id: courseId,
+          course_id: enrollment.course_id,
           user_id: userDetails.id,
           message: newMessage.trim(),
         },
@@ -61,9 +108,27 @@ function DiscussionForum({ courseId, userDetails }) {
     }
   };
 
-  const handleEdit = (discussion) => {
-    setEditingId(discussion.id);
-    setEditMessage(discussion.message);
+  const handleDelete = async (discussionId) => {
+    if (!window.confirm("Are you sure you want to delete this message?"))
+      return;
+
+    try {
+      await axios.delete(
+        `http://localhost:3000/api/discussions/delete/${discussionId}`,
+        {
+          data: { user_id: userDetails.id },
+          withCredentials: true,
+        }
+      );
+
+      setStatusMessage("Message deleted successfully!");
+      fetchDiscussions();
+
+      setTimeout(() => setStatusMessage(null), 3000);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to delete message");
+      console.error("Error deleting message:", err);
+    }
   };
 
   const submitEdit = async () => {
@@ -90,27 +155,9 @@ function DiscussionForum({ courseId, userDetails }) {
     }
   };
 
-  const handleDelete = async (discussionId) => {
-    if (!window.confirm("Are you sure you want to delete this message?"))
-      return;
-
-    try {
-      await axios.delete(
-        `http://localhost:3000/api/discussions/delete/${discussionId}`,
-        {
-          data: { user_id: userDetails.id },
-          withCredentials: true,
-        }
-      );
-
-      setStatusMessage("Message deleted successfully!");
-      fetchDiscussions();
-
-      setTimeout(() => setStatusMessage(null), 3000);
-    } catch (err) {
-      setError(err.response?.data?.message || "Failed to delete message");
-      console.error("Error deleting message:", err);
-    }
+  const handleEdit = (discussion) => {
+    setEditingId(discussion.id);
+    setEditMessage(discussion.message);
   };
 
   const cancelEdit = () => {
@@ -190,4 +237,4 @@ function DiscussionForum({ courseId, userDetails }) {
   );
 }
 
-export default DiscussionForum;
+export default DiscussionStudents;
